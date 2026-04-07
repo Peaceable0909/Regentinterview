@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Regent College interview Prep — Credibility Interview Simulator</title>
+<title>Regent College Interview Prep — Credibility Interview Simulator</title>
+<!-- FIX: Added Puter.js for free AI without API keys -->
+<script src="https://js.puter.com/v2/"></script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -67,9 +69,24 @@ tailwind.config = {
 .btn-ghost:hover { background:#f1f5f9; color:#0f172a; border-color:#cbd5e1; }
 
 /* TABS */
-.tab-btn { font-family:'Manrope',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:12px 16px; color:#94a3b8; border-bottom:2px solid transparent; transition:all 0.2s; white-space:nowrap; background:none; border-top:none; border-left:none; border-right:none; cursor:pointer; }
-.tab-btn:hover { color:#0f172a; background:#f8fafc; }
-.tab-btn.active { color:#006a71; border-bottom-color:#006a71; font-weight:800; }
+.tab-btn {
+  font-family:'Manrope',sans-serif;
+  font-weight:700;
+  font-size:10px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  padding:8px 14px;
+  border-radius:100px;
+  background:#f1f5f9;
+  border:none;
+  color:#64748b;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.tab-btn:hover { background:#e2e8f0; color:#0f172a; }
+.tab-btn.active { background:#006a71; color:#ffffff; font-weight:800; }
 
 /* SIDE LINKS */
 .side-link { display:flex; align-items:center; gap:12px; padding:10px 24px; color:#64748b; font-family:'Manrope',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; transition:all 0.2s; cursor:pointer; border-left:3px solid transparent; }
@@ -143,8 +160,15 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 .mod-item { background:#ffffff; border:1.5px solid #e2e8f0; border-radius:12px; padding:18px 20px; display:flex; gap:14px; align-items:flex-start; margin-bottom:8px; }
 .mod-num { background:#006a71; color:#fff; font-family:'Manrope',sans-serif; font-weight:800; font-size:9px; padding:3px 8px; border-radius:5px; flex-shrink:0; margin-top:2px; letter-spacing:0.05em; }
 
-@media(max-width:768px){ .side-panel{display:none!important;} .main-offset{margin-left:0!important;} .mobile-tab-bar{display:flex!important;} }
-.mobile-tab-bar{display:none;}
+/* Mobile layout */
+@media(max-width:768px){
+  .side-panel { display:none !important; }
+  .main-offset { margin-left:0 !important; }
+  .mobile-tab-bar { display:flex !important; }
+  .tc { padding-top: 116px !important; }
+}
+
+.mobile-tab-bar { display:none; }
 </style>
 </head>
 <body class="bg-surface-low text-on-surface font-body min-h-screen" style="font-family:'Inter',sans-serif">
@@ -153,14 +177,12 @@ textarea.sim-input::placeholder { color:#94a3b8; }
      COURSE SELECT SCREEN
 ====================================================== -->
 <div id="s-select" class="screen active min-h-screen">
-  <!-- Top bar -->
   <div class="top-nav fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 h-14">
-    <span class="font-headline font-black text-primary text-lg tracking-tight">Regent Kinetic</span>
+    <span class="font-headline font-black text-primary text-lg tracking-tight">Regent Interview</span>
     <span class="font-label text-xs font-bold uppercase tracking-widest text-muted">UK Visa Interview Prep</span>
   </div>
 
   <div class="pt-14 flex flex-col items-center px-6 py-16 max-w-4xl mx-auto">
-    <!-- Hero -->
     <div class="text-center mb-14">
       <div class="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full bg-primary-light border border-primary-mid">
         <span class="material-symbols-outlined text-primary text-sm">school</span>
@@ -170,19 +192,17 @@ textarea.sim-input::placeholder { color:#94a3b8; }
       <p class="text-muted text-sm max-w-md mx-auto leading-relaxed">Select your programme to get your personalised prep pack: training video, full guide, all questions, sample answers, and AI marking.</p>
     </div>
 
-    <!-- Divider label -->
     <div class="flex items-center gap-3 mb-6 w-full">
       <div class="h-px flex-1 bg-border"></div>
       <span class="font-label text-xs font-bold uppercase tracking-widest text-muted">Choose your programme</span>
       <div class="h-px flex-1 bg-border"></div>
     </div>
 
-    <!-- Course grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
       <div class="course-card rounded-2xl p-6" onclick="selectCourse('mba')">
         <span class="chip-pg mb-4">Postgraduate</span>
         <h3 class="font-headline text-base font-bold text-on-surface mb-2">MBA</h3>
-        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">📍 Holborn Campus · WC1X 8BH</p>
+        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">Holborn Campus · WC1X 8BH</p>
         <div class="flex items-center justify-between mt-2">
           <span class="font-label text-xs text-muted">Launch prep</span>
           <span class="material-symbols-outlined text-primary card-arrow">arrow_forward</span>
@@ -191,7 +211,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
       <div class="course-card rounded-2xl p-6" onclick="selectCourse('msc-intmgmt')">
         <span class="chip-pg mb-4">Postgraduate</span>
         <h3 class="font-headline text-base font-bold text-on-surface mb-2">MSc International Management</h3>
-        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">📍 Titchfield St / Wembley</p>
+        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">Great Titchfield St · W1W 7PA</p>
         <div class="flex items-center justify-between mt-2">
           <span class="font-label text-xs text-muted">Launch prep</span>
           <span class="material-symbols-outlined text-primary card-arrow">arrow_forward</span>
@@ -200,7 +220,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
       <div class="course-card rounded-2xl p-6" onclick="selectCourse('msc-socialcare')">
         <span class="chip-pg mb-4">Postgraduate</span>
         <h3 class="font-headline text-base font-bold text-on-surface mb-2">MSc Social Care, Health &amp; Wellbeing</h3>
-        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">📍 Holborn Campus · WC1X 8BH</p>
+        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">Holborn Campus · WC1X 8BH</p>
         <div class="flex items-center justify-between mt-2">
           <span class="font-label text-xs text-muted">Launch prep</span>
           <span class="material-symbols-outlined text-primary card-arrow">arrow_forward</span>
@@ -209,7 +229,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
       <div class="course-card rounded-2xl p-6" onclick="selectCourse('msc-softeng')">
         <span class="chip-pg mb-4">Postgraduate</span>
         <h3 class="font-headline text-base font-bold text-on-surface mb-2">MSc Software Engineering</h3>
-        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">📍 Wembley Campus · HA9 0FJ</p>
+        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">Wembley Campus · HA9 0FJ</p>
         <div class="flex items-center justify-between mt-2">
           <span class="font-label text-xs text-muted">Launch prep</span>
           <span class="material-symbols-outlined text-primary card-arrow">arrow_forward</span>
@@ -218,7 +238,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
       <div class="course-card rounded-2xl p-6" onclick="selectCourse('msc-psych')">
         <span class="chip-pg mb-4">Postgraduate</span>
         <h3 class="font-headline text-base font-bold text-on-surface mb-2">MSc Psychology</h3>
-        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">📍 Great Titchfield St · W1W 7PA</p>
+        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">Great Titchfield St · W1W 7PA</p>
         <div class="flex items-center justify-between mt-2">
           <span class="font-label text-xs text-muted">Launch prep</span>
           <span class="material-symbols-outlined text-primary card-arrow">arrow_forward</span>
@@ -227,7 +247,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
       <div class="course-card rounded-2xl p-6" onclick="selectCourse('bsc-business')">
         <span class="chip-ug mb-4">Undergraduate</span>
         <h3 class="font-headline text-base font-bold text-on-surface mb-2">BSc (Hons) Business Management</h3>
-        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">📍 Southall Campus · UB2 4BL</p>
+        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">Southall Campus · UB2 4BL</p>
         <div class="flex items-center justify-between mt-2">
           <span class="font-label text-xs text-muted">Launch prep</span>
           <span class="material-symbols-outlined text-secondary card-arrow">arrow_forward</span>
@@ -236,7 +256,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
       <div class="course-card rounded-2xl p-6" onclick="selectCourse('bsc-topup')">
         <span class="chip-ug mb-4">Undergraduate</span>
         <h3 class="font-headline text-base font-bold text-on-surface mb-2">BSc (Hons) Business Management Top Up</h3>
-        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">📍 TBC — confirm with Regent</p>
+        <p class="font-label text-xs text-muted mb-4 uppercase tracking-wide">TBC — confirm with Regent</p>
         <div class="flex items-center justify-between mt-2">
           <span class="font-label text-xs text-muted">Launch prep</span>
           <span class="material-symbols-outlined text-secondary card-arrow">arrow_forward</span>
@@ -251,7 +271,6 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 ====================================================== -->
 <div id="s-main" class="screen">
 
-  <!-- Fixed top nav -->
   <header class="top-nav fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 h-14">
     <div class="flex items-center gap-3">
       <button onclick="goBack()" class="btn-ghost flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-label font-bold uppercase tracking-wider">
@@ -303,16 +322,16 @@ textarea.sim-input::placeholder { color:#94a3b8; }
     </aside>
 
     <!-- Mobile tab bar -->
-    <div class="mobile-tab-bar fixed top-14 left-0 right-0 z-40 bg-white border-b border-border overflow-x-auto" style="scrollbar-width:none">
-      <div class="flex" style="min-width:max-content">
-        <button class="tab-btn active" id="mt-video"     onclick="showTab('video','mt-video',true)">▶ Video</button>
-        <button class="tab-btn"        id="mt-guide"     onclick="showTab('guide','mt-guide',true)">📖 Guide</button>
-        <button class="tab-btn"        id="mt-know"      onclick="showTab('know','mt-know',true)">📚 Know</button>
-        <button class="tab-btn"        id="mt-questions" onclick="showTab('questions','mt-questions',true)">❓ Questions</button>
-        <button class="tab-btn"        id="mt-samples"   onclick="showTab('samples','mt-samples',true)">💬 Samples</button>
-        <button class="tab-btn"        id="mt-practice"  onclick="showTab('practice','mt-practice',true)">✏️ Practice</button>
-        <button class="tab-btn"        id="mt-resources" onclick="showTab('resources','mt-resources',true)">🔗 Resources</button>
-        <button class="tab-btn"        id="mt-checklist" onclick="showTab('checklist','mt-checklist',true)">✅ Checklist</button>
+    <div class="mobile-tab-bar fixed top-14 left-0 right-0 z-40 bg-white border-b border-border shadow-sm">
+      <div class="flex overflow-x-auto px-3 py-2 gap-2" style="-ms-overflow-style:none; scrollbar-width:none;">
+        <button class="tab-btn active" id="mt-video"     onclick="showTab('video','mt-video',true)">Video</button>
+        <button class="tab-btn"        id="mt-guide"     onclick="showTab('guide','mt-guide',true)">Guide</button>
+        <button class="tab-btn"        id="mt-know"      onclick="showTab('know','mt-know',true)">Know</button>
+        <button class="tab-btn"        id="mt-questions" onclick="showTab('questions','mt-questions',true)">Questions</button>
+        <button class="tab-btn"        id="mt-samples"   onclick="showTab('samples','mt-samples',true)">Samples</button>
+        <button class="tab-btn"        id="mt-practice"  onclick="showTab('practice','mt-practice',true)">Practice</button>
+        <button class="tab-btn"        id="mt-resources" onclick="showTab('resources','mt-resources',true)">Resources</button>
+        <button class="tab-btn"        id="mt-checklist" onclick="showTab('checklist','mt-checklist',true)">Checklist</button>
       </div>
     </div>
 
@@ -321,7 +340,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 
       <!-- VIDEO TAB -->
       <div class="tc active px-6 md:px-10 py-8 max-w-4xl" id="tab-video" style="padding-top:60px">
-        <div class="md:pt-0 pt-8">
+        <div class="md:pt-0">
           <span class="font-label text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">Module 0 — Orientation</span>
           <h2 class="font-headline text-3xl font-black text-on-surface mb-2">Training Video</h2>
           <p class="text-muted text-sm mb-7 leading-relaxed max-w-xl">Watch this in full before your interview. It covers everything the interviewer expects you to know.</p>
@@ -350,7 +369,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 
       <!-- FULL GUIDE TAB -->
       <div class="tc px-6 md:px-10 py-8 max-w-4xl" id="tab-guide" style="padding-top:60px">
-        <div class="md:pt-0 pt-8">
+        <div class="md:pt-0">
           <span class="font-label text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">Module 1 — Preparation</span>
           <h2 class="font-headline text-3xl font-black text-on-surface mb-2">Complete Interview Guide</h2>
           <p class="text-muted text-sm mb-7 max-w-xl leading-relaxed">Everything you need to know, in the order you should learn it. Read all sections.</p>
@@ -371,7 +390,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
             <div class="acc-body px-5 pb-5 pt-0">
               <div class="border-t border-border pt-4 text-muted text-sm leading-relaxed space-y-3">
                 <p>A credibility interview is the university's way of checking that you are genuinely prepared for your studies, understand what you are coming to study, and can realistically support yourself in the UK. The goal is not to trick you — they just want to be sure you know the basics about your course, accommodation, finances, future plans, and why you chose Regent.</p>
-                <p>If you answer confidently, naturally, and truthfully, you will pass. Your answers should sound like things you discovered through your own research — not like a memorised script.</p>
+                <p>If you answer confidently, naturally, and truthfully, you will pass. Your answers should sound like things you discovered through your own research, not like a memorised script.</p>
               </div>
             </div>
           </div>
@@ -390,7 +409,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 
       <!-- WHAT TO KNOW TAB -->
       <div class="tc px-6 md:px-10 py-8 max-w-4xl" id="tab-know" style="padding-top:60px">
-        <div class="md:pt-0 pt-8">
+        <div class="md:pt-0">
           <span class="font-label text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">Module 2 — Intelligence Brief</span>
           <h2 class="font-headline text-3xl font-black text-on-surface mb-2">What You Must Know</h2>
           <p class="text-muted text-sm mb-7 max-w-xl leading-relaxed">These facts are specific to your course. Know all of them before your interview.</p>
@@ -415,7 +434,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 
       <!-- ALL QUESTIONS TAB -->
       <div class="tc px-6 md:px-10 py-8 max-w-4xl" id="tab-questions" style="padding-top:60px">
-        <div class="md:pt-0 pt-8">
+        <div class="md:pt-0">
           <span class="font-label text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">Module 3 — Question Bank</span>
           <h2 class="font-headline text-3xl font-black text-on-surface mb-2">All Interview Questions</h2>
           <p class="text-muted text-sm mb-7 max-w-xl leading-relaxed">Every question you may be asked. Read all of them and prepare an answer for each one.</p>
@@ -425,7 +444,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 
       <!-- SAMPLE ANSWERS TAB -->
       <div class="tc px-6 md:px-10 py-8 max-w-4xl" id="tab-samples" style="padding-top:60px">
-        <div class="md:pt-0 pt-8">
+        <div class="md:pt-0">
           <span class="font-label text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">Module 4 — Response Library</span>
           <h2 class="font-headline text-3xl font-black text-on-surface mb-2">Sample Natural Answers</h2>
           <p class="text-muted text-sm mb-7 max-w-xl leading-relaxed">Model answers in a calm, natural style. Adapt them with your own details — never recite word for word.</p>
@@ -443,7 +462,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 
       <!-- PRACTICE TAB -->
       <div class="tc px-6 md:px-10 py-8 max-w-4xl" id="tab-practice" style="padding-top:60px">
-        <div class="md:pt-0 pt-8">
+        <div class="md:pt-0">
           <span class="font-label text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">Module 5 — Practice Lab</span>
           <h2 class="font-headline text-3xl font-black text-on-surface mb-2">Practice &amp; Mark</h2>
           <p class="text-muted text-sm mb-7 max-w-xl leading-relaxed">Type your answer and press Check. The AI marks it and gives you a pass or tells you what to improve.</p>
@@ -474,7 +493,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 
       <!-- RESOURCES TAB -->
       <div class="tc px-6 md:px-10 py-8 max-w-4xl" id="tab-resources" style="padding-top:60px">
-        <div class="md:pt-0 pt-8">
+        <div class="md:pt-0">
           <span class="font-label text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">Module 6 — Research Links</span>
           <h2 class="font-headline text-3xl font-black text-on-surface mb-2">Resources</h2>
           <p class="text-muted text-sm mb-7 max-w-xl leading-relaxed">The interviewer expects you to know all of these websites. Click each one and read the content thoroughly.</p>
@@ -482,7 +501,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
             <div>
               <div class="font-label text-xs font-bold uppercase tracking-widest text-primary mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-sm">school</span>Regent College London</div>
               <div class="grid sm:grid-cols-2 gap-3">
-                <a href="https://www.rcl.ac.uk/study/international-students/" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">language</span><div><strong>Courses for International Students</strong><span class="lsub">rcl.ac.uk</span></div></a>
+                <a href="https://www.rcl.ac.uk/study/international-eu-students/courses-international-students/" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">language</span><div><strong>Courses for International Students</strong><span class="lsub">rcl.ac.uk</span></div></a>
                 <a href="https://www.rcl.ac.uk/study/thinking-into-character/" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">auto_awesome</span><div><strong>Thinking Into Character (TIC)</strong><span class="lsub">Free leadership programme</span></div></a>
                 <a href="https://www.rcl.ac.uk/study/support/student-development/" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">support</span><div><strong>Student Development Services</strong><span class="lsub">rcl.ac.uk</span></div></a>
                 <a href="https://www.rcl.ac.uk/study/" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">workspace_premium</span><div><strong>What Makes Regent Unique</strong><span class="lsub">Study at Regent</span></div></a>
@@ -491,22 +510,22 @@ textarea.sim-input::placeholder { color:#94a3b8; }
             <div>
               <div class="font-label text-xs font-bold uppercase tracking-widest text-secondary mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-sm">location_on</span>Campus Locations</div>
               <div class="grid sm:grid-cols-2 gap-3">
-                <a href="https://www.rcl.ac.uk/study/campus-locations/holborn/" target="_blank" class="lcard"><span class="material-symbols-outlined text-secondary text-xl">apartment</span><div><strong>Holborn Campus</strong><span class="lsub">338-346 Grays Inn Road, WC1X 8BH</span></div></a>
-                <a href="https://www.rcl.ac.uk/study/campus-locations/great-titchfield-street/" target="_blank" class="lcard"><span class="material-symbols-outlined text-secondary text-xl">apartment</span><div><strong>Great Titchfield Street</strong><span class="lsub">27 Great Titchfield Street, W1W 7PA</span></div></a>
-                <a href="https://www.rcl.ac.uk/study/campus-locations/wembley/" target="_blank" class="lcard"><span class="material-symbols-outlined text-secondary text-xl">apartment</span><div><strong>Wembley Campus</strong><span class="lsub">Engineers Way, HA9 0FJ</span></div></a>
-                <a href="https://www.rcl.ac.uk/study/campus-locations/southall/" target="_blank" class="lcard"><span class="material-symbols-outlined text-secondary text-xl">apartment</span><div><strong>Southall Campus</strong><span class="lsub">The Green, Southall, UB2 4BL</span></div></a>
+                <a href="https://www.rcl.ac.uk/study/campus-locations/#holborn/" target="_blank" class="lcard"><span class="material-symbols-outlined text-secondary text-xl">apartment</span><div><strong>Holborn Campus</strong><span class="lsub">338-346 Grays Inn Road, WC1X 8BH</span></div></a>
+                <a href="https://www.rcl.ac.uk/study/campus-locations/#great-titchfield-street/" target="_blank" class="lcard"><span class="material-symbols-outlined text-secondary text-xl">apartment</span><div><strong>Great Titchfield Street</strong><span class="lsub">27 Great Titchfield Street, W1W 7PA</span></div></a>
+                <a href="https://www.rcl.ac.uk/study/campus-locations/#wembley/" target="_blank" class="lcard"><span class="material-symbols-outlined text-secondary text-xl">apartment</span><div><strong>Wembley Campus</strong><span class="lsub">Engineers Way, HA9 0FJ</span></div></a>
+                <a href="https://www.rcl.ac.uk/study/campus-locations/#southall/" target="_blank" class="lcard"><span class="material-symbols-outlined text-secondary text-xl">apartment</span><div><strong>Southall Campus</strong><span class="lsub">The Green, Southall, UB2 4BL</span></div></a>
               </div>
             </div>
             <div>
               <div class="font-label text-xs font-bold uppercase tracking-widest text-accent mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-sm">description</span>Course Specifications</div>
-              <a href="https://www.bolton.ac.uk/uob-programmes/" target="_blank" class="lcard"><span class="material-symbols-outlined text-accent text-xl">article</span><div><strong>University of Bolton Programmes</strong><span class="lsub">All course specs — bolton.ac.uk</span></div></a>
+              <a href="https://www.rcl.ac.uk/study/international-eu-students/courses-international-students/" target="_blank" class="lcard"><span class="material-symbols-outlined text-accent text-xl">article</span><div><strong>University of Bolton Programmes</strong><span class="lsub">All course specs — bolton.ac.uk</span></div></a>
             </div>
             <div>
               <div class="font-label text-xs font-bold uppercase tracking-widest text-primary mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-sm">currency_pound</span>Cost of Living</div>
               <div class="grid sm:grid-cols-2 gap-3">
-                <a href="https://www.lse.ac.uk/student-life/London-life/London-on-a-budget" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">bar_chart</span><div><strong>LSE London Budget Guide</strong><span class="lsub">Detailed breakdown of living costs</span></div></a>
+                <a href="https://www.rcl.ac.uk/study/international-eu-students/international-tuition-fees/" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">bar_chart</span><div><strong>Regent Tuition Fees</strong><span class="lsub">International fee schedule</span></div></a>
                 <a href="https://www.which.co.uk/money/university-and-student-finance/student-money-and-budgeting/how-much-it-costs-to-live-at-university-aw9gp0v2sq7r" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">receipt_long</span><div><strong>Which.co.uk Student Budget</strong><span class="lsub">University living cost guide</span></div></a>
-                <a href="https://www.oanda.com/uk-en/" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">currency_exchange</span><div><strong>Oanda Currency Converter</strong><span class="lsub">Convert your currency to GBP</span></div></a>
+                <a href="https://www.oanda.com/currency-converter/en/?from=GBP&to=NGN&amount=1" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">currency_exchange</span><div><strong>Oanda Currency Converter</strong><span class="lsub">Convert your currency to GBP</span></div></a>
                 <a href="https://www.spareroom.co.uk/" target="_blank" class="lcard"><span class="material-symbols-outlined text-primary text-xl">home</span><div><strong>SpareRoom</strong><span class="lsub">Find rooms near your campus</span></div></a>
               </div>
             </div>
@@ -516,7 +535,7 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 
       <!-- CHECKLIST TAB -->
       <div class="tc px-6 md:px-10 py-8 max-w-4xl" id="tab-checklist" style="padding-top:60px">
-        <div class="md:pt-0 pt-8">
+        <div class="md:pt-0">
           <span class="font-label text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">Module 7 — Readiness</span>
           <h2 class="font-headline text-3xl font-black text-on-surface mb-2">Readiness Checklist</h2>
           <p class="text-muted text-sm mb-7 max-w-xl leading-relaxed">Tick every item before your interview date. If anything is unticked, go back and prepare it.</p>
@@ -542,41 +561,202 @@ textarea.sim-input::placeholder { color:#94a3b8; }
 ====================================================== -->
 <script>
 const COURSES={
-  mba:{name:'MBA',campus:'Holborn Campus',address:'338-346 Grays Inn Road, London, WC1X 8BH',campusUrl:'https://www.rcl.ac.uk/study/campus-locations/holborn/',specUrl:'https://www.bolton.ac.uk/uob-programmes/',
-    videoNotes:'Your campus address: 338-346 Grays Inn Road, London, WC1X 8BH. Why you chose the MBA over other postgraduate degrees. How the MBA is assessed (assignments, group projects, presentations, dissertation). At least 3 module names and why they interest you. The names of 2 other UK universities offering similar MBAs and why you chose Regent. Which specific companies you will apply to after graduation. Your expected salary in GBP. The breakdown of your monthly London living costs. Your accommodation area and postcode. Your visa working hours limit (20 hours per week during term time).',
+  mba:{
+    name:'MBA',
+    campus:'Holborn Campus',
+    address:'338-346 Grays Inn Road, London, WC1X 8BH',
+    campusUrl:'https://www.rcl.ac.uk/study/campus-locations/#holborn/',
+    specUrl:'https://www.bolton.ac.uk/uob-programmes/',
+    videoNotes:[
+      'Your campus address: 338-346 Grays Inn Road, London, WC1X 8BH',
+      'Why you chose the MBA over other postgraduate degrees',
+      'How the MBA is assessed (assignments, group projects, presentations, dissertation)',
+      'At least 3 module names and why they interest you',
+      'The names of 2 other UK universities offering similar MBAs and why you chose Regent',
+      'Which specific companies you will apply to after graduation',
+      'Your expected salary in GBP',
+      'The breakdown of your monthly London living costs',
+      'Your accommodation area and postcode',
+      'Your visa working hours limit (20 hours per week during term time)'
+    ],
     assessment:'Written assignments, group projects, presentations, and a final dissertation or business project.',
-    modules:[{name:'Strategic Management',why:'Covers how organisations make long-term competitive decisions and navigate changing markets.'},{name:'Financial Management',why:'Teaches how to analyse financial reports and manage organisational budgets effectively.'},{name:'Marketing Management',why:'Explores how companies build brands, understand customers, and drive growth.'},{name:'Leadership and Organisational Behaviour',why:'Develops the skills needed to manage teams and lead organisations through change.'},{name:'Operations and Supply Chain Management',why:'Shows how businesses design and deliver products and services efficiently.'},{name:'Entrepreneurship and Innovation',why:'Covers the skills and mindset needed to start and grow a new business venture.'},{name:'Business Research Methods',why:'Prepares you to carry out the research required for your final dissertation or business project.'}],
-    roles:['Management Consultant','Business Development Manager','Operations Director','Strategy Analyst'],companies:['Deloitte','McKinsey','PwC','KPMG','Accenture'],salary:'£40,000 – £65,000'},
-  'msc-intmgmt':{name:'MSc International Management',campus:'Great Titchfield Street / Wembley',address:'Great Titchfield St: 27 Great Titchfield Street, W1W 7PA  |  Wembley: Engineers Way, HA9 0FJ',campusUrl:'https://www.rcl.ac.uk/study/campus-locations/great-titchfield-street/',specUrl:'https://www.bolton.ac.uk/uob-programmes/',
-    videoNotes:'Your campus name and full address with postcode. Why international management fits your career goals. Your key modules and how the course is assessed. The names of 2 other UK universities offering international management and why you chose Regent. Jobs and companies you will target after graduation. Your monthly London living costs. Your accommodation area and postcode. Your visa responsibilities.',
+    modules:[
+      {name:'Strategic Management',why:'Covers how organisations make long-term competitive decisions and navigate changing markets.'},
+      {name:'Financial Management',why:'Teaches how to analyse financial reports and manage organisational budgets effectively.'},
+      {name:'Marketing Management',why:'Explores how companies build brands, understand customers, and drive growth.'},
+      {name:'Leadership and Organisational Behaviour',why:'Develops the skills needed to manage teams and lead organisations through change.'},
+      {name:'Operations and Supply Chain Management',why:'Shows how businesses design and deliver products and services efficiently.'},
+      {name:'Entrepreneurship and Innovation',why:'Covers the skills and mindset needed to start and grow a new business venture.'},
+      {name:'Business Research Methods',why:'Prepares you to carry out the research required for your final dissertation or business project.'}
+    ],
+    roles:['Management Consultant','Business Development Manager','Operations Director','Strategy Analyst'],
+    companies:['Deloitte','McKinsey','PwC','KPMG','Accenture'],
+    salary:'£40,000 – £65,000'
+  },
+  'msc-intmgmt':{
+    name:'MSc International Management',
+    campus:'Great Titchfield Street Campus',
+    address:'27 Great Titchfield Street, London, W1W 7PA',
+    campusUrl:'https://www.rcl.ac.uk/study/campus-locations/#great-titchfield-street/',
+    specUrl:'https://www.bolton.ac.uk/uob-programmes/',
+    videoNotes:[
+      'Your primary campus: 27 Great Titchfield Street, London, W1W 7PA',
+      'Why international management fits your career goals',
+      'Your key modules and how the course is assessed',
+      'The names of 2 other UK universities offering international management and why you chose Regent',
+      'Jobs and companies you will target after graduation',
+      'Your monthly London living costs',
+      'Your accommodation area and postcode',
+      'Your visa responsibilities'
+    ],
     assessment:'Essays, group projects, presentations, and a final dissertation.',
-    modules:[{name:'International Business Strategy',why:'Explains how companies operate, compete, and expand across different countries.'},{name:'Cross-Cultural Management',why:'Teaches how to lead and collaborate effectively in multicultural environments.'},{name:'Global Marketing',why:'Covers how to adapt marketing strategies to different international markets.'},{name:'International Finance',why:'Looks at exchange rates, trade finance, and managing money across borders.'},{name:'Managing People in Organisations',why:'Develops the HR and leadership skills needed to manage international teams.'},{name:'Research Methods',why:'Builds the skills needed to complete your final dissertation.'}],
-    roles:['International Business Analyst','Global Operations Manager','Trade Development Officer'],companies:['Unilever','Shell','British American Tobacco','Standard Chartered'],salary:'£32,000 – £50,000'},
-  'msc-socialcare':{name:'MSc Social Care, Health and Wellbeing',campus:'Holborn Campus',address:'338-346 Grays Inn Road, London, WC1X 8BH',campusUrl:'https://www.rcl.ac.uk/study/campus-locations/holborn/',specUrl:'https://www.bolton.ac.uk/uob-programmes/',
-    videoNotes:'Your campus address: 338-346 Grays Inn Road, London, WC1X 8BH. Why this course matches your professional background in health or social care. Your key modules and how the course is assessed. Two comparable UK postgraduate courses and why Regent stands out. The roles you will target after graduation. Your monthly living costs and accommodation postcode.',
+    modules:[
+      {name:'International Business Strategy',why:'Explains how companies operate, compete, and expand across different countries.'},
+      {name:'Cross-Cultural Management',why:'Teaches how to lead and collaborate effectively in multicultural environments.'},
+      {name:'Global Marketing',why:'Covers how to adapt marketing strategies to different international markets.'},
+      {name:'International Finance',why:'Looks at exchange rates, trade finance, and managing money across borders.'},
+      {name:'Managing People in Organisations',why:'Develops the HR and leadership skills needed to manage international teams.'},
+      {name:'Research Methods',why:'Builds the skills needed to complete your final dissertation.'}
+    ],
+    roles:['International Business Analyst','Global Operations Manager','Trade Development Officer'],
+    companies:['Unilever','Shell','British American Tobacco','Standard Chartered'],
+    salary:'£32,000 – £50,000'
+  },
+  'msc-socialcare':{
+    name:'MSc Social Care, Health and Wellbeing',
+    campus:'Holborn Campus',
+    address:'338-346 Grays Inn Road, London, WC1X 8BH',
+    campusUrl:'https://www.rcl.ac.uk/study/campus-locations/#holborn/',
+    specUrl:'https://www.bolton.ac.uk/uob-programmes/',
+    videoNotes:[
+      'Your campus address: 338-346 Grays Inn Road, London, WC1X 8BH',
+      'Why this course matches your professional background in health or social care',
+      'Your key modules and how the course is assessed',
+      'Two comparable UK postgraduate courses and why Regent stands out',
+      'The roles you will target after graduation',
+      'Your monthly living costs and accommodation postcode'
+    ],
     assessment:'Written assignments, case studies, presentations, and a final dissertation.',
-    modules:[{name:'Health Policy and Management',why:'Examines how health systems are funded, organised, and reformed at a policy level.'},{name:'Social Care Leadership',why:'Builds the skills needed to manage and lead teams in social care settings.'},{name:'Research Methods in Health and Social Care',why:'Prepares you to carry out rigorous, evidence-based research in your field.'},{name:'Safeguarding and Ethics',why:'Covers the legal and ethical responsibilities when working with vulnerable adults and children.'},{name:'Mental Health and Wellbeing',why:'Explores how mental health services are delivered, evaluated, and improved.'}],
-    roles:['Social Care Manager','Health Services Coordinator','Wellbeing Programme Lead'],companies:['NHS','MIND','Age UK','Turning Point','Local Authority Social Services'],salary:'£30,000 – £45,000'},
-  'msc-softeng':{name:'MSc Software Engineering',campus:'Wembley Campus',address:'Engineers Way, Wembley, HA9 0FJ',campusUrl:'https://www.rcl.ac.uk/study/campus-locations/wembley/',specUrl:'https://www.bolton.ac.uk/uob-programmes/',
-    videoNotes:'Your campus address: Engineers Way, Wembley, HA9 0FJ. Why you chose software engineering at postgraduate level. Your key technical modules and how the course is assessed. Two UK universities offering similar MSc Software Engineering programmes and why you chose Regent. The tech companies you will target after graduation. Your expected salary in GBP. Your monthly London living costs and accommodation postcode.',
+    modules:[
+      {name:'Health Policy and Management',why:'Examines how health systems are funded, organised, and reformed at a policy level.'},
+      {name:'Social Care Leadership',why:'Builds the skills needed to manage and lead teams in social care settings.'},
+      {name:'Research Methods in Health and Social Care',why:'Prepares you to carry out rigorous, evidence-based research in your field.'},
+      {name:'Safeguarding and Ethics',why:'Covers the legal and ethical responsibilities when working with vulnerable adults and children.'},
+      {name:'Mental Health and Wellbeing',why:'Explores how mental health services are delivered, evaluated, and improved.'}
+    ],
+    roles:['Social Care Manager','Health Services Coordinator','Wellbeing Programme Lead'],
+    companies:['NHS','MIND','Age UK','Turning Point','Local Authority Social Services'],
+    salary:'£30,000 – £45,000'
+  },
+  'msc-softeng':{
+    name:'MSc Software Engineering',
+    campus:'Wembley Campus',
+    address:'Engineers Way, Wembley, HA9 0FJ',
+    campusUrl:'https://www.rcl.ac.uk/study/campus-locations/#wembley/',
+    specUrl:'https://www.bolton.ac.uk/uob-programmes/',
+    videoNotes:[
+      'Your campus address: Engineers Way, Wembley, HA9 0FJ',
+      'Why you chose software engineering at postgraduate level',
+      'Your key technical modules and how the course is assessed',
+      'Two UK universities offering similar MSc Software Engineering programmes and why you chose Regent',
+      'The tech companies you will target after graduation',
+      'Your expected salary in GBP',
+      'Your monthly London living costs and accommodation postcode'
+    ],
     assessment:'Programming assignments, group software projects, exams, and a final individual project or dissertation.',
-    modules:[{name:'Software Architecture and Design',why:'Teaches how to design software systems that are scalable, maintainable, and robust.'},{name:'Advanced Programming',why:'Develops skills in modern programming languages and development practices.'},{name:'Cloud Computing and DevOps',why:'Covers deploying and managing software using platforms like AWS and Azure.'},{name:'Agile Project Management',why:'Explains how software teams plan, deliver, and continuously improve digital products.'},{name:'Cybersecurity Principles',why:'Introduces how to identify threats and protect systems and data from security breaches.'},{name:'Machine Learning Fundamentals',why:'Explores how AI models are built and applied to solve real-world software problems.'}],
-    roles:['Software Engineer','Backend Developer','Cloud Solutions Architect','DevOps Engineer'],companies:['Google','Microsoft','Amazon','Capgemini','Infosys','TCS'],salary:'£40,000 – £70,000'},
-  'msc-psych':{name:'MSc Psychology',campus:'Great Titchfield Street Campus',address:'27 Great Titchfield Street, London, W1W 7PA',campusUrl:'https://www.rcl.ac.uk/study/campus-locations/great-titchfield-street/',specUrl:'https://www.bolton.ac.uk/uob-programmes/',
-    videoNotes:'Your campus address: 27 Great Titchfield Street, London, W1W 7PA. Why you chose psychology at postgraduate level and how it builds on your previous studies. Your key modules and assessment methods. Two other UK universities offering MSc Psychology and why you chose Regent. Career roles you are targeting. Monthly living costs. Accommodation area and postcode.',
+    modules:[
+      {name:'Software Architecture and Design',why:'Teaches how to design software systems that are scalable, maintainable, and robust.'},
+      {name:'Advanced Programming',why:'Develops skills in modern programming languages and development practices.'},
+      {name:'Cloud Computing and DevOps',why:'Covers deploying and managing software using platforms like AWS and Azure.'},
+      {name:'Agile Project Management',why:'Explains how software teams plan, deliver, and continuously improve digital products.'},
+      {name:'Cybersecurity Principles',why:'Introduces how to identify threats and protect systems and data from security breaches.'},
+      {name:'Machine Learning Fundamentals',why:'Explores how AI models are built and applied to solve real-world software problems.'}
+    ],
+    roles:['Software Engineer','Backend Developer','Cloud Solutions Architect','DevOps Engineer'],
+    companies:['Google','Microsoft','Amazon','Capgemini','Infosys','TCS'],
+    salary:'£40,000 – £70,000'
+  },
+  'msc-psych':{
+    name:'MSc Psychology',
+    campus:'Great Titchfield Street Campus',
+    address:'27 Great Titchfield Street, London, W1W 7PA',
+    campusUrl:'https://www.rcl.ac.uk/study/campus-locations/#great-titchfield-street/',
+    specUrl:'https://www.bolton.ac.uk/uob-programmes/',
+    videoNotes:[
+      'Your campus address: 27 Great Titchfield Street, London, W1W 7PA',
+      'Why you chose psychology at postgraduate level and how it builds on your previous studies',
+      'Your key modules and assessment methods',
+      'Two other UK universities offering MSc Psychology and why you chose Regent',
+      'Career roles you are targeting',
+      'Monthly living costs',
+      'Accommodation area and postcode'
+    ],
     assessment:'Essays, research reports, presentations, and a final dissertation.',
-    modules:[{name:'Research Methods and Statistics',why:'The foundation for all evidence-based psychological study and the basis for your dissertation.'},{name:'Cognitive Psychology',why:'Examines how people think, remember, make decisions, and solve problems.'},{name:'Social Psychology',why:'Looks at how people behave in groups and how social situations influence our actions.'},{name:'Developmental Psychology',why:'Studies how people grow, learn, and change across the lifespan from infancy to old age.'},{name:'Clinical and Abnormal Psychology',why:'Covers how mental health conditions are understood, diagnosed, and treated.'},{name:'Occupational Psychology',why:'Applies psychological principles to workplace behaviour and organisational performance.'}],
-    roles:['Assistant Psychologist','HR Specialist','Mental Health Support Worker','Research Officer'],companies:['NHS','Mind','Priory Group','Corporate HR departments','University research institutions'],salary:'£28,000 – £42,000'},
-  'bsc-business':{name:'BSc (Hons) Business Management',campus:'Southall Campus',address:'The Green, Southall, London, UB2 4BL',campusUrl:'https://www.rcl.ac.uk/study/campus-locations/southall/',specUrl:'https://www.bolton.ac.uk/uob-programmes/',
-    videoNotes:'Your campus address: The Green, Southall, London, UB2 4BL. Why business management is the right degree for your career goals. At least 3 module names and why they interest you. Two other UK universities offering BSc Business Management and why you chose Regent. Specific companies and roles you want after graduation. Your monthly London living costs and accommodation postcode.',
+    modules:[
+      {name:'Research Methods and Statistics',why:'The foundation for all evidence-based psychological study and the basis for your dissertation.'},
+      {name:'Cognitive Psychology',why:'Examines how people think, remember, make decisions, and solve problems.'},
+      {name:'Social Psychology',why:'Looks at how people behave in groups and how social situations influence our actions.'},
+      {name:'Developmental Psychology',why:'Studies how people grow, learn, and change across the lifespan from infancy to old age.'},
+      {name:'Clinical and Abnormal Psychology',why:'Covers how mental health conditions are understood, diagnosed, and treated.'},
+      {name:'Occupational Psychology',why:'Applies psychological principles to workplace behaviour and organisational performance.'}
+    ],
+    roles:['Assistant Psychologist','HR Specialist','Mental Health Support Worker','Research Officer'],
+    companies:['NHS','Mind','Priory Group','Corporate HR departments','University research institutions'],
+    salary:'£28,000 – £42,000'
+  },
+  'bsc-business':{
+    name:'BSc (Hons) Business Management',
+    campus:'Southall Campus',
+    address:'The Green, Southall, London, UB2 4BL',
+    campusUrl:'https://www.rcl.ac.uk/study/campus-locations/#southall/',
+    specUrl:'https://www.bolton.ac.uk/uob-programmes/',
+    videoNotes:[
+      'Your campus address: The Green, Southall, London, UB2 4BL',
+      'Why business management is the right degree for your career goals',
+      'At least 3 module names and why they interest you',
+      'Two other UK universities offering BSc Business Management and why you chose Regent',
+      'Specific companies and roles you want after graduation',
+      'Your monthly London living costs and accommodation postcode'
+    ],
     assessment:'Coursework, group projects, presentations, and written exams.',
-    modules:[{name:'Principles of Management',why:'Builds the theoretical and practical foundation of how organisations are structured and managed.'},{name:'Business Finance',why:'Teaches how to read financial statements, manage budgets, and assess business performance.'},{name:'Marketing Fundamentals',why:'Covers how businesses identify customer needs, build brands, and drive sales.'},{name:'Business Law',why:'Explains the legal framework that governs companies and commercial transactions.'},{name:'Human Resource Management',why:'Looks at how organisations recruit, develop, motivate, and retain their people.'},{name:'Entrepreneurship',why:'Teaches the mindset and practical skills needed to start and grow a business.'}],
-    roles:['Business Analyst','Marketing Executive','Operations Coordinator','Entrepreneur'],companies:['Unilever','Diageo','MTN Group','Zenith Bank','Access Bank'],salary:'£25,000 – £38,000'},
-  'bsc-topup':{name:'BSc (Hons) Business Management Top Up',campus:'TBC — confirm with Regent directly',address:'Contact Regent admissions to confirm your campus address before your interview.',campusUrl:'https://www.rcl.ac.uk/study/campus-locations/',specUrl:'https://www.bolton.ac.uk/uob-programmes/',
-    videoNotes:'Confirm your campus address with Regent before the interview. Explain clearly what the Top Up year adds on top of your HND or Foundation degree. Your module names and how the course is assessed. Why you chose Regent to complete your degree. Specific jobs and companies you will target after graduation. Monthly living costs. Accommodation area and postcode.',
+    modules:[
+      {name:'Principles of Management',why:'Builds the theoretical and practical foundation of how organisations are structured and managed.'},
+      {name:'Business Finance',why:'Teaches how to read financial statements, manage budgets, and assess business performance.'},
+      {name:'Marketing Fundamentals',why:'Covers how businesses identify customer needs, build brands, and drive sales.'},
+      {name:'Business Law',why:'Explains the legal framework that governs companies and commercial transactions.'},
+      {name:'Human Resource Management',why:'Looks at how organisations recruit, develop, motivate, and retain their people.'},
+      {name:'Entrepreneurship',why:'Teaches the mindset and practical skills needed to start and grow a business.'}
+    ],
+    roles:['Business Analyst','Marketing Executive','Operations Coordinator','Entrepreneur'],
+    companies:['Unilever','Diageo','MTN Group','Zenith Bank','Access Bank'],
+    salary:'£25,000 – £38,000'
+  },
+  'bsc-topup':{
+    name:'BSc (Hons) Business Management Top Up',
+    campus:'TBC — confirm with Regent directly',
+    address:'Contact Regent admissions to confirm your campus address before your interview.',
+    campusUrl:'https://www.rcl.ac.uk/study/campus-locations/',
+    specUrl:'https://www.bolton.ac.uk/uob-programmes/',
+    videoNotes:[
+      'Confirm your campus address with Regent before the interview',
+      'Explain clearly what the Top Up year adds on top of your HND or Foundation degree',
+      'Your module names and how the course is assessed',
+      'Why you chose Regent to complete your degree',
+      'Specific jobs and companies you will target after graduation',
+      'Monthly living costs',
+      'Accommodation area and postcode'
+    ],
     assessment:'Assignments, group projects, and presentations.',
-    modules:[{name:'Strategic Management',why:'Builds on prior business knowledge with a deeper focus on long-term strategic thinking.'},{name:'International Business',why:'Explores how businesses operate, compete, and expand across different countries and cultures.'},{name:'Leadership and Change Management',why:'Covers how effective leaders drive transformation within organisations.'},{name:'Business Research Project',why:'A practical, applied project that uses your skills to address a real business challenge.'}],
-    roles:['Business Development Executive','Operations Manager','Project Coordinator'],companies:['Local businesses in your home sector','NGOs','Government departments'],salary:'£24,000 – £35,000'}
+    modules:[
+      {name:'Strategic Management',why:'Builds on prior business knowledge with a deeper focus on long-term strategic thinking.'},
+      {name:'International Business',why:'Explores how businesses operate, compete, and expand across different countries and cultures.'},
+      {name:'Leadership and Change Management',why:'Covers how effective leaders drive transformation within organisations.'},
+      {name:'Business Research Project',why:'A practical, applied project that uses your skills to address a real business challenge.'}
+    ],
+    roles:['Business Development Executive','Operations Manager','Project Coordinator'],
+    companies:['Local businesses in your home sector','NGOs','Government departments'],
+    salary:'£24,000 – £35,000'
+  }
 }
 
 const GUIDE_SECTIONS=[
@@ -634,8 +814,14 @@ function selectCourse(id){
   document.getElementById('tb-name').textContent=course.name
   document.getElementById('tb-campus').textContent=course.campus
   passN=0; failN=0; totN=0; updScore()
-  const notes=course.videoNotes.split('. ').filter(Boolean)
-  document.getElementById('vid-notes').innerHTML=notes.map(n=>`<div class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-sm mt-0.5" style="font-variation-settings:'FILL' 1;">check_circle</span><span>${n}.</span></div>`).join('')
+
+  document.getElementById('vid-notes').innerHTML=course.videoNotes.map(n=>`
+    <div class="flex items-start gap-2">
+      <span class="material-symbols-outlined text-primary text-sm mt-0.5" style="font-variation-settings:'FILL' 1;">check_circle</span>
+      <span>${n}</span>
+    </div>
+  `).join('')
+
   buildGuide(); buildKnow(); buildQuestions(); buildPractice(); buildChecklist()
   showTab('video','sl-video')
 }
@@ -758,66 +944,137 @@ function renderPQs(qs){
 }
 
 function togHint(id){
-  const h=document.getElementById('hint-'+id)
-  h.classList.toggle('hidden')
+  document.getElementById('hint-'+id).classList.toggle('hidden')
 }
 
 function clrAns(id){
   document.getElementById('ans-'+id).value=''
-  const f=document.getElementById('fb-'+id)
-  f.classList.add('hidden')
+  document.getElementById('fb-'+id).classList.add('hidden')
 }
 
+// ======================================================
+// FIXED: Using Puter.js for FREE AI - no API key needed!
+// ======================================================
 async function chkAns(id){
   const q=PQS.find(x=>x.id===id)
   const ans=document.getElementById('ans-'+id).value.trim()
   if(!ans){ alert('Please type your answer first.'); return }
+
   const btn=document.getElementById('btn-'+id)
   btn.disabled=true
   btn.innerHTML='<span class="spinner"></span><span class="ml-2">Marking...</span>'
+
   const fb=document.getElementById('fb-'+id)
   fb.className='mt-4 rounded-r-xl p-5 text-sm leading-relaxed fb-loading'
   fb.classList.remove('hidden')
   document.getElementById('fbhd-'+id).textContent='Marking your answer...'
   document.getElementById('fbb-'+id).innerHTML=''
 
-  const prompt=`You are a UK student visa credibility interviewer. The student is applying to study ${course.name} at Regent College London (campus: ${course.campus}).
+  const prompt=`You are a strict UK student visa credibility interviewer.
+
+The student is applying to study "${course.name}" at Regent College London, campus: "${course.campus}".
+
+Evaluate the student's answer based ONLY on:
+- Relevance to the course
+- Clear knowledge of the course content
+- Clear reason for choosing Regent College London specifically
+- Genuine study intent (not immigration intent)
+- Clarity, structure, and confidence
 
 Question: "${q.q}"
-What a good answer must cover: ${q.cr}
+
+What a strong answer MUST include: ${q.cr}
+
 Student answer: "${ans}"
 
-Reply ONLY in this exact JSON format, no other text:
-{"pass":true,"score":80,"summary":"One sentence verdict.","good":["strength 1"],"improve":["gap 1"]}`
+Be strict. Do not be nice if the answer is weak.
 
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:600,
-        messages:[{role:'user',content:prompt}]
-      })
-    })
-    const data=await res.json()
-    const raw=data.content.map(b=>b.text||'').join('')
-    const j=JSON.parse(raw.replace(/```json|```/g,'').trim())
-    if(j.pass) passN++; else failN++; totN++; updScore()
-    fb.className='mt-4 rounded-r-xl p-5 text-sm leading-relaxed '+(j.pass?'fb-pass':'fb-fail')
-    document.getElementById('fbhd-'+id).innerHTML=j.pass
-      ?`<span class="text-success">✔ Passed</span> — ${j.summary}`
-      :`<span class="text-error">✘ Needs Improvement</span> — ${j.summary}`
-    let h=''
-    if(j.good?.length) h+=j.good.map(g=>`<div class="flex items-start gap-2 mt-1 text-xs text-on-surface"><span class="material-symbols-outlined text-success text-xs mt-0.5" style="font-variation-settings:'FILL' 1;">check_circle</span>${g}</div>`).join('')
-    if(j.improve?.length) h+=j.improve.map(x=>`<div class="flex items-start gap-2 mt-1 text-xs text-on-surface"><span class="material-symbols-outlined text-error text-xs mt-0.5">warning</span>${x}</div>`).join('')
-    document.getElementById('fbb-'+id).innerHTML=h
-  }catch(e){
-    fb.className='mt-4 rounded-r-xl p-5 text-sm leading-relaxed fb-fail'
-    document.getElementById('fbhd-'+id).textContent='Marking service unavailable — please try again.'
+Return ONLY valid JSON in this exact format:
+{"pass":true,"score":80,"summary":"One clear sentence verdict specific to the answer.","good":["specific strength based on answer"],"improve":["specific weakness and how to fix it"]}
+
+Rules:
+- Make feedback specific to THIS answer (no generic advice)
+- Mention the course or school if missing or weak
+- Score must reflect quality (0-100)
+- Output ONLY JSON, no markdown, no extra text`
+
+  try {
+    // FIX: Use Puter.js - completely free, no API key required!
+    // Users just need to sign in with a free Puter account when prompted
+    const response = await puter.ai.chat(prompt, {
+      model: 'gpt-4o-mini',  // Fast and cost-effective
+      stream: false
+    });
+
+    // Parse response - Puter returns the message content directly
+    let raw = '';
+    if (typeof response === 'string') {
+      raw = response;
+    } else if (response.message?.content) {
+      raw = response.message.content;
+    } else if (response.content) {
+      raw = response.content;
+    } else {
+      throw new Error('Unexpected response format');
+    }
+
+    // Extract JSON from response
+    raw = raw.replace(/```json|```/g, '').replace(/\n/g, ' ').trim()
+    const match = raw.match(/\{.*\}/)
+    if (!match) throw new Error('Invalid JSON response from AI')
+
+    const j = JSON.parse(match[0])
+    if (typeof j.pass !== 'boolean') throw new Error('Invalid response structure')
+
+    // Update scores
+    if (j.pass) passN++; else failN++;
+    totN++;
+    updScore();
+
+    // Display feedback
+    fb.className = 'mt-4 rounded-r-xl p-5 text-sm leading-relaxed ' + (j.pass ? 'fb-pass' : 'fb-fail')
+    document.getElementById('fbhd-'+id).innerHTML = j.pass
+      ? `<span class="text-success font-bold">✓ Passed</span> — ${j.summary}`
+      : `<span class="text-error font-bold">✘ Needs Improvement</span> — ${j.summary}`
+
+    let h = ''
+    if (j.good?.length) {
+      h += j.good.map(g => `
+        <div class="flex items-start gap-2 mt-2 text-xs text-on-surface">
+          <span class="material-symbols-outlined text-success text-xs mt-0.5" style="font-variation-settings:'FILL' 1;">check_circle</span>
+          <span>${g}</span>
+        </div>
+      `).join('')
+    }
+    if (j.improve?.length) {
+      h += j.improve.map(x => `
+        <div class="flex items-start gap-2 mt-2 text-xs text-on-surface">
+          <span class="material-symbols-outlined text-error text-xs mt-0.5">warning</span>
+          <span>${x}</span>
+        </div>
+      `).join('')
+    }
+    document.getElementById('fbb-'+id).innerHTML = h
+
+  } catch (e) {
+    console.error('AI marking error:', e);
+    fb.className = 'mt-4 rounded-r-xl p-5 text-sm leading-relaxed fb-fail'
+    document.getElementById('fbhd-'+id).innerHTML = '<span class="text-error font-bold">Service Unavailable</span>'
+    document.getElementById('fbb-'+id).innerHTML = `
+      <div class="text-xs text-muted mt-2">
+        <p class="mb-2">Unable to connect to the AI marking service. This could be because:</p>
+        <ul class="list-disc pl-4 space-y-1">
+          <li>You need to sign in to Puter (free account) when prompted</li>
+          <li>Your internet connection is unstable</li>
+          <li>The service is temporarily busy</li>
+        </ul>
+        <p class="mt-2">Please try again in a moment.</p>
+      </div>
+    `
   }
-  btn.disabled=false
-  btn.innerHTML='<span class="material-symbols-outlined text-sm">refresh</span><span class="ml-1">Check Again</span>'
+
+  btn.disabled = false
+  btn.innerHTML = '<span class="material-symbols-outlined text-sm">refresh</span><span class="ml-1">Check Again</span>'
 }
 
 function updScore(){
@@ -844,17 +1101,9 @@ function buildChecklist(){
   ]
   let html='', n=0
   groups.forEach(g=>{
-    html+=`<div class="panel p-6 shadow-sm">
-      <div class="flex items-center gap-2 mb-4">
-        <span class="material-symbols-outlined text-sm ${g.color}">${g.icon}</span>
-        <span class="font-label text-xs font-bold uppercase tracking-widest ${g.color}">${g.title}</span>
-      </div>
-      <div>`
+    html+=`<div class="panel p-6 shadow-sm"><div class="flex items-center gap-2 mb-4"><span class="material-symbols-outlined text-sm ${g.color}">${g.icon}</span><span class="font-label text-xs font-bold uppercase tracking-widest ${g.color}">${g.title}</span></div><div>`
     g.items.forEach(item=>{
-      html+=`<div class="check-item flex items-start gap-3 py-3" id="ci${n}">
-        <div class="check-box" onclick="togCB(this)"></div>
-        <span class="text-on-surface text-sm leading-relaxed ct">${item}</span>
-      </div>`; n++
+      html+=`<div class="check-item flex items-start gap-3 py-3" id="ci${n}"><div class="check-box" onclick="togCB(this)"></div><span class="text-on-surface text-sm leading-relaxed ct">${item}</span></div>`; n++
     })
     html+=`</div></div>`
   })
