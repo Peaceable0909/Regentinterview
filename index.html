@@ -3,6 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhiteRock Interview Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy: #0a192f;
+  --red: #d90429;
+  --white: #ffffff;
+  --light-bg: #f4f7f6;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--light-bg);
+  color: #333;
+}
+
+/* --- HEADER & LOGO --- */
+.header {
+  background: var(--navy);
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  color: white;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+}
+
+.logo-box img {
+  height: 50px; /* Adjust height as needed */
+  margin-right: 15px;
+  border: 1px dashed rgba(255,255,255,0.3); /* Temporary guide */
+}
+
+.header-text h1 { margin: 0; font-size: 1.5rem; color: var(--white); }
+.header-text p { margin: 0; font-size: 0.9rem; color: var(--red); font-weight: bold; }
+
+/* --- HOME PAGE --- */
+#home {
+  padding: 50px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+h2.main-title {
+  font-size: 2rem;
+  color: var(--navy);
+  margin-bottom: 40px;
+}
+
+.school-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+/* --- CARDS WITH ANIMATION --- */
+.card {
+  background: white;
+  padding: 35px 25px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  border-top: 6px solid var(--red);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 40px rgba(10, 25, 47, 0.2);
+  background-color: var(--white);
+}
+
+.card h3 { margin: 0 0 10px; color: var(--navy); font-size: 1.3rem; }
+.card p { font-size: 14px; color: #666; }
+
+/* --- TRAINER SECTIONS --- */
+.trainer {
+  display: none;
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  animation: slideIn 0.5s ease-out;
+}
+
+.section-title {
+  color: var(--navy);
+  border-bottom: 3px solid var(--red);
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+/* --- BACK BUTTON --- */
+.back-btn {
+  margin-top: 30px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  background: var(--navy);
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: var(--red);
+  transform: scale(1.05);
+}
+
+/* --- CREATIVE ANIMATIONS --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo-box">
+    <img src="logo.png" alt="UPLOAD LOGO HERE">
+    <div class="header-text">
+      <h1>WhiteRock Educational Services</h1>
+      <p>INTERVIEW TRAINING PORTAL</p>
+    </div>
+  </div>
+</div>
+
+<div id="home">
+  <h2 class="main-title">Select a School to Begin Training</h2>
+
+  <div class="school-grid">
+    <div class="card" onclick="openTrainer('regent')">
+      <h3>Regent College London</h3>
+      <p>Click to start practice session</p>
+    </div>
+
+    <div class="card" onclick="openTrainer('york')">
+      <h3>York St John University</h3>
+      <p>Prepare for your admission interview</p>
+    </div>
+
+    <div class="card" onclick="openTrainer('ukvi')">
+      <h3>UKVI Interview</h3>
+      <p>Visa credibility & training</p>
+    </div>
+
+    <div class="card" onclick="openTrainer('bpp')">
+      <h3>BPP University</h3>
+      <p>Master your academic interview</p>
+    </div>
+
+    <div class="card" onclick="openTrainer('team')">
+      <h3>Team Academy</h3>
+      <p>Interactive training module</p>
+    </div>
+  </div>
+</div>
+
+<div id="regent" class="trainer">
+  <h2 class="section-title">Regent College London Training</h2>
+  
+  <div class="content-area">
+      <p style="color: #999; border: 2px dashed #ccc; padding: 20px;">[<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Regent College Interview Prep — Credibility Interview Simulator</title>
 <!-- FIX: Added Puter.js for free AI without API keys -->
 <script src="https://js.puter.com/v2/"></script>
@@ -1128,5 +1317,69 @@ function updProg(){
   document.getElementById('prog-fill').style.width=pct+'%'
 }
 </script>
+</body>
+</html>]</p>
+  </div>
+
+  <button class="back-btn" onclick="goHome()">⬅ Back to Schools</button>
+</div>
+
+<div id="york" class="trainer">
+  <h2 class="section-title">York St John Training</h2>
+  
+  <div class="content-area">
+      <p style="color: #999; border: 2px dashed #ccc; padding: 20px;">[PASTE YOUR YORK SYSTEM HTML/JS CODE HERE]</p>
+  </div>
+
+  <button class="back-btn" onclick="goHome()">⬅ Back to Schools</button>
+</div>
+
+<div id="ukvi" class="trainer">
+  <h2 class="section-title">UKVI Interview Training</h2>
+  
+  <div class="content-area">
+      <p style="color: #999; border: 2px dashed #ccc; padding: 20px;">[PASTE YOUR UKVI SYSTEM HTML/JS CODE HERE]</p>
+  </div>
+
+  <button class="back-btn" onclick="goHome()">⬅ Back to Schools</button>
+</div>
+
+<div id="bpp" class="trainer">
+  <h2 class="section-title">BPP University Training</h2>
+  
+  <div class="content-area">
+      <p style="color: #999; border: 2px dashed #ccc; padding: 20px;">[PASTE YOUR BPP SYSTEM HTML/JS CODE HERE]</p>
+  </div>
+
+  <button class="back-btn" onclick="goHome()">⬅ Back to Schools</button>
+</div>
+
+<div id="team" class="trainer">
+  <h2 class="section-title">Team Academy Training</h2>
+  
+  <div class="content-area">
+      <p style="color: #999; border: 2px dashed #ccc; padding: 20px;">[PASTE YOUR TEAM ACADEMY SYSTEM HTML/JS CODE HERE]</p>
+  </div>
+
+  <button class="back-btn" onclick="goHome()">⬅ Back to Schools</button>
+</div>
+
+<script>
+function openTrainer(id) {
+  document.getElementById("home").style.display = "none";
+  document.querySelectorAll(".trainer").forEach(el => el.style.display = "none");
+  
+  const target = document.getElementById(id);
+  target.style.display = "block";
+  window.scrollTo(0,0);
+}
+
+function goHome() {
+  document.querySelectorAll(".trainer").forEach(el => el.style.display = "none");
+  document.getElementById("home").style.display = "block";
+  window.scrollTo(0,0);
+}
+</script>
+
 </body>
 </html>
